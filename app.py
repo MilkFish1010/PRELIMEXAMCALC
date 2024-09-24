@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 # Grade Compositions
 def the_computer(prelim_grade):
@@ -11,9 +12,9 @@ def the_computer(prelim_grade):
     if prelim_grade >= 50:
         must_deannlister = 90.0
         scored_deannlister = must_deannlister - (0.20 * prelim_grade)
-        must_fart_deannlister = scored_deannlister / 0.80
+        must_part_deannlister = scored_deannlister / 0.80
         deans_list_status = "🎉It is possible to achieve Dean's list with that Prelim grade!"
-        deans_list_status2 = round(must_fart_deannlister, 2)
+        deans_list_status2 = round(must_part_deannlister, 2)
     else:
         deans_list_status = "Sorry, it's not possible to have dean's list regardless of Midterm and Final grade with that Prelim grade man 😔"
         deans_list_status2 = f"❌Not Possible❌"
