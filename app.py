@@ -1,4 +1,4 @@
-from flask import Flask, render_template, os, request
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -94,6 +94,3 @@ def compute_grade(absences, prelim_exam, quizzes, requirements, recitation):
 # this one runs flask
 if __name__ == "__main__":
     app.run(debug=True)
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
-   
