@@ -1,13 +1,12 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-# Grade Compositions (same as your previous logic)
+# Grade Compositions
 def the_computer(prelim_grade):
     overall_passing_grade = 75
     must_deannlister = 90
-    prelim_percentage = 0.20
-    midterm_percentage = 0.30
-    final_percentage = 0.50
+    prelim_percentage = 0.20  # 20%
+    midterm_percentage = 0.30  # 30%
+    final_percentage = 0.50  # 50%
 
     if prelim_grade >= 50:
         must_deannlister = 90.0
@@ -16,14 +15,19 @@ def the_computer(prelim_grade):
         deans_list_status = "🎉It is possible to achieve Dean's list with that Prelim grade!"
         deans_list_status2 = round(must_fart_deannlister, 2)
     else:
-        deans_list_status = "Sorry, it's not possible to have dean's list regardless of Midterm and Final grade with that Prelim grade 😔"
+        deans_list_status = "Sorry, it's not possible to have dean's list regardless of Midterm and Final grade with that Prelim grade man 😔"
         deans_list_status2 = f"❌Not Possible❌"
 
+    # Gets the 20% of the prelim grade of student and make it into a variable
     student_prelim_grade = prelim_grade * prelim_percentage
+    # Converts or contains the prelim grade to an overall grade and also making a variable for checking the possibility to pass
     remaining_required = overall_passing_grade - student_prelim_grade
+
+    # I'll Assume equal distribution as answers
     midterm_required = remaining_required / (midterm_percentage + final_percentage)
     final_required = remaining_required / (midterm_percentage + final_percentage)
 
+    # Limit the decimals to 2
     return {
         "prelim": round(prelim_grade, 2),
         "midterm": round(midterm_required, 2),
@@ -32,13 +36,20 @@ def the_computer(prelim_grade):
         "deans_list2": deans_list_status2,
     }
 
-# Grade Calculation Function (same as your previous logic)
+# Grade Calculation Function
 def compute_grade(absences, prelim_exam, quizzes, requirements, recitation):
+    # Attendance logic
     if absences >= 4:
-        return None
-    attendance = max(0, 100 - 10 * absences)
+        return None  # Immediate fail if 4 or more absences
+    attendance = max(0, 100 - 10 * absences)  # Subtract 10 points per absence
+
+    # Class standing calculation (40% quizzes, 30% requirements, 30% recitation)
     class_standing = (quizzes * 0.40) + (requirements * 0.30) + (recitation * 0.30)
+
+    # Prelim grade calculation (60% exam, 10% attendance, 30% class standing)
     prelim_grade = (prelim_exam * 0.60) + (attendance * 0.10) + (class_standing * 0.30)
+
+    # Return rounded result
     return round(prelim_grade, 2)
 
 # Streamlit app
@@ -68,61 +79,3 @@ if st.button("Calculate"):
             st.write(f"Final Required: {result['final']}")
             st.write(f"Dean's List Status: {result['deans_list']}")
             st.write(f"Get this Midterm and Final to attain Dean's list overall grade of 90 requirement (assuming both equal grades): {result['deans_list2']}")
-
-# Adding your custom HTML for styling with CSS in string format
-html_code = """
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prelim Grade Calculator</title>
-    <style>
-        .error {
-            color: red;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .result {
-            background-color: #e7f3e7;
-            padding: 10px;
-            border-left: 5px solid #ffe100;
-            font-size: 18px;
-        }
-        body {
-            background-image: url('https://i.pinimg.com/originals/ec/b4/9a/ecb49ae237029ebb64c56f7ec5e8c978.gif');
-            background-size: cover;
-        }
-        h1 {
-            color: gold;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #370000;
-            padding: 20px;
-            border: 10px outset rgb(255, 217, 0);
-            text-align: center;
-            color: rgb(241, 9, 9);
-            box-shadow: 0 0 100px #f50000;
-        }
-        h2 {
-            color: rgb(226, 178, 2);
-        }
-    </style>
-</head>
-<body>
-    <section class="container">
-        <h1>Prelim Grade Calculator</h1>
-        <!-- Form elements should be replaced by Streamlit input elements -->
-        <br>
-        <div class="result description">
-            <h2>Results:</h2>
-        </div>
-    </section>
-</body>
-</html>
-"""
-
-components.html(html_code, height=600)
