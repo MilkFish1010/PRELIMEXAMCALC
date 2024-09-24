@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 # Grade Compositions
 def the_computer(prelim_grade):
@@ -80,9 +79,7 @@ if st.button("Calculate"):
             st.write(f"Final Required: {result['final']}")
             st.write(f"Dean's List Status: {result['deans_list']}")
             st.write(f"Get this Midterm and Final to attain Dean's list overall grade of 90 requirement (assuming both equal grades): {result['deans_list2']}")
-
-# Embed HTML
-html_code = """
+how to make my html work on the app and on streamlit host 
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -185,3 +182,36 @@ html_code = """
             <br><br>
             <label for="requirements" class="box amazify gold-text" style="font-size: large;">Requirements Grade:</label>
             <input type="number" step="0.01" id="requirements" name="requirements" required class="box2">
+            <br><br>
+            <label for="recitation" class="box amazify gold-text" style="font-size: large;">Recitation Grade:</label>
+            <input type="number" step="0.01" id="recitation" name="recitation" required class="box2">
+            <br><br>
+            <button type="submit" class="thesubmitbutton gold-text"><h1><strong style="font-size: 50px;">▷</strong></h1></button>
+        </form>
+        <br>
+        
+        <!-- Error message -->
+        <div class="error description" style="font-size: larger;"> <h2>Results:</h2><br></div>
+
+        <!-- Result message -->
+        <div class="result description" style="font-size: 25px;">
+            <h1 style="font-size: 50px;">Results:</h1>
+            <br>
+            <h2>Prelim Grade:</h2>
+            <p class="highlight"></p>
+            <br><p class="gold-text" style="font-family: Arial, Helvetica, sans-serif;">To pass with an overall grade of <strong style="color: greenyellow;">75</strong>, you need at least:</p>
+            <br>
+            <h2>Midterm Required:</h2>
+            <p class="highlight"></p>
+            <h2>Final Required:</h2>
+            <p class="highlight"></p>
+            {% if result.deans_list %}
+            <h2>Dean's List Status:</h2>
+            <p style="font-size: larger; color: #e2cead;"></p>
+            <p class="gold-text">Get this Midterm and Final to attain Dean's list overall grade of <br> <span style="color: greenyellow;">90</span> requirement (assuming both equal grades):<strong class="highlight"><br>  </strong>
+                <br>
+            </p>
+        </div>
+    </section>
+</body>
+</html>
