@@ -12,9 +12,9 @@ def the_computer(prelim_grade):
     if prelim_grade >= 50:
         must_deannlister = 90.0
         scored_deannlister = must_deannlister - (0.20 * prelim_grade)
-        must_part_deannlister = scored_deannlister / 0.80
+        must_fart_deannlister = scored_deannlister / 0.80
         deans_list_status = "🎉It is possible to achieve Dean's list with that Prelim grade!"
-        deans_list_status2 = round(must_part_deannlister, 2)
+        deans_list_status2 = round(must_fart_deannlister, 2)
     else:
         deans_list_status = "Sorry, it's not possible to have dean's list regardless of Midterm and Final grade with that Prelim grade man 😔"
         deans_list_status2 = f"❌Not Possible❌"
@@ -81,11 +81,107 @@ if st.button("Calculate"):
             st.write(f"Dean's List Status: {result['deans_list']}")
             st.write(f"Get this Midterm and Final to attain Dean's list overall grade of 90 requirement (assuming both equal grades): {result['deans_list2']}")
 
-html_file_path = "templates/index.html"
+# Embed HTML
+html_code = """
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prelim Grade Calculator</title>
+    <style>
+       .error {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-# Read the HTML file
-with open(html_file_path, 'r', encoding='utf-8') as file:
-    html_content = file.read()
+.result {
+    background-color: #e7f3e7;
+    padding: 10px;
+    border-left: 5px solid #ffe100;
+    font-size: 18px;
+}
 
-# Display the HTML content in Streamlit
-components.html(html_content, height=600)
+.highlight {
+ color: greenyellow ;
+    }
+        body {
+          background-image: url('https://i.pinimg.com/originals/ec/b4/9a/ecb49ae237029ebb64c56f7ec5e8c978.gif');
+          background-size: cover;
+        }
+        h1 {
+          color: gold;
+          text-align: center;
+        }
+        .container {
+                width: 80%;
+                margin: 20px auto;
+                background-color: #370000;
+                padding: 20px;
+                border: 10px outset rgb(255, 217, 0);
+                text-align: center;
+                color: rgb(241, 9, 9);
+                box-shadow: 0 0 100px #f50000;
+    } 
+        h2 {
+            color: rgb(226, 178, 2);
+        }
+        .gold-text {
+            color: gold;
+            }
+            .box {
+              border: outset gold 5px;
+              margin: auto;
+              width: 15%;
+              background-color:#870606;
+              padding: 10px;
+            }
+              .box2{
+                border: gold outset 5px;
+                margin: auto;
+                width: 15%;
+                background-color:#f8f8f8;
+  
+            }
+            .imgborder {
+              border: gold outset 15px;
+              box-shadow: 0 0 50px #9ecaed;
+            }
+                .description {
+                padding: 10px;
+                float: none;
+                margin: auto;
+                background-color: #200101;
+                border: gold outset 5px;
+                width: 50%;
+                text-align: center;
+                box-shadow: 0 0 10px #9ecaed;      
+    }   
+                .amazify {
+                  letter-spacing: 2px;
+                  font-family: Arial, Helvetica, sans-serif;
+                }
+                .thesubmitbutton {
+                    border: gold outset 5px;
+                margin: auto;
+                width: 25%;
+                background-color:#663401;
+                }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <h1>Prelim Grade Calculator</h1>
+        <form method="POST" action="/">
+            <label for="absences" class="box amazify gold-text" style="font-size: large;">Number of Absences:</label>
+            <input type="number" id="absences" name="absences" required class="box2">
+            <br><br>
+            <label for="prelim_exam" class="box amazify gold-text" style="font-size: large;">Prelim Exam Grade:</label>
+            <input type="number" step="0.01" id="prelim_exam" name="prelim_exam" required class="box2">
+            <br><br>
+            <label for="quizzes" class="box amazify gold-text" style="font-size: large;">Quizzes Grade:</label>
+            <input type="number" step="0.01" id="quizzes" name="quizzes" required class="box2">
+            <br><br>
+            <label for="requirements" class="box amazify gold-text" style="font-size: large;">Requirements Grade:</label>
+            <input type="number" step="0.01" id="requirements" name="requirements" required class="box2">
