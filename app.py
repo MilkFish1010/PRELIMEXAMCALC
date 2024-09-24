@@ -79,3 +79,12 @@ if st.button("Calculate"):
             st.write(f"Final Required: {result['final']}")
             st.write(f"Dean's List Status: {result['deans_list']}")
             st.write(f"Get this Midterm and Final to attain Dean's list overall grade of 90 requirement (assuming both equal grades): {result['deans_list2']}")
+
+html_file_path = "templates/index.html"
+
+# Read the HTML file
+with open(html_file_path, 'r', encoding='utf-8') as file:
+    html_content = file.read()
+
+# Display the HTML content in Streamlit
+components.html(html_content, height=600)
