@@ -1,6 +1,4 @@
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
+import streamlit as st
 
 # Grade Compositions
 def the_computer(prelim_grade):
@@ -29,9 +27,6 @@ def the_computer(prelim_grade):
     midterm_required = remaining_required / (midterm_percentage + final_percentage)
     final_required = remaining_required / (midterm_percentage + final_percentage)
 
-
-
-
     # Limit the decimals to 2
     return {
         "prelim": round(prelim_grade, 2),
@@ -40,38 +35,6 @@ def the_computer(prelim_grade):
         "deans_list": deans_list_status,
         "deans_list2": deans_list_status2,
     }
-
-# POST from flask to submit data from HTML
-@app.route("/", methods=["GET", "POST"])
-def index():
-    error = None
-    result = None
-    if request.method == "POST":
-        try:
-            # Get inputs
-            absences = int(request.form["absences"])
-            prelim_exam = float(request.form["prelim_exam"])
-            quizzes = float(request.form["quizzes"])
-            requirements = float(request.form["requirements"])
-            recitation = float(request.form["recitation"])
-
-            # Validate input ranges
-            if prelim_exam < 0 or prelim_exam > 100 or quizzes < 0 or quizzes > 100 or requirements < 0 or requirements > 100 or recitation < 0 or recitation > 100:
-                error = "ERROR ⚠️: Grades must be between 0 and 100."
-            elif absences < 0:
-                error = "ERROR ⚠️: Absences cannot be negative."
-            else:
-                # Calculate the final result
-                prelim_grade = compute_grade(absences, prelim_exam, quizzes, requirements, recitation)
-                if prelim_grade is None:
-                    error = "😔 You Failed the Prelim because of your absences. 😔"
-                else:
-                    result = the_computer(prelim_grade)
-
-        except ValueError:
-            error = "ERROR ⚠️: Please enter valid numeric values."
-
-    return render_template("index.html", error=error, result=result)
 
 # Grade Calculation Function
 def compute_grade(absences, prelim_exam, quizzes, requirements, recitation):
@@ -89,8 +52,30 @@ def compute_grade(absences, prelim_exam, quizzes, requirements, recitation):
     # Return rounded result
     return round(prelim_grade, 2)
 
+# Streamlit app
+st.title("Prelim Grade Calculator")
 
+absences = st.number_input("Number of Absences:", min_value=0, step=1)
+prelim_exam = st.number_input("Prelim Exam Grade:", min_value=0.0, max_value=100.0, step=0.01)
+quizzes = st.number_input("Quizzes Grade:", min_value=0.0, max_value=100.0, step=0.01)
+requirements = st.number_input("Requirements Grade:", min_value=0.0, max_value=100.0, step=0.01)
+recitation = st.number_input("Recitation Grade:", min_value=0.0, max_value=100.0, step=0.01)
 
-# this one runs flask
-if __name__ == "__main__":
-    app.run(debug=True)
+if st.button("Calculate"):
+    if prelim_exam < 0 or prelim_exam > 100 or quizzes < 0 or quizzes > 100 or requirements < 0 or requirements > 100 or recitation < 0 or recitation > 100:
+        st.error("ERROR ⚠️: Grades must be between 0 and 100.")
+    elif absences < 0:
+        st.error("ERROR ⚠️: Absences cannot be negative.")
+    else:
+        prelim_grade = compute_grade(absences, prelim_exam, quizzes, requirements, recitation)
+        if prelim_grade is None:
+            st.error("😔 You Failed the Prelim because of your absences. 😔")
+        else:
+            result = the_computer(prelim_grade)
+            st.success("Results:")
+            st.write(f"Prelim Grade: {result['prelim']}")
+            st.write(f"To pass with an overall grade of 75, you need at least:")
+            st.write(f"Midterm Required: {result['midterm']}")
+            st.write(f"Final Required: {result['final']}")
+            st.write(f"Dean's List Status: {result['deans_list']}")
+            st.write(f"Get this Midterm and Final to attain Dean's list overall grade of 90 requirement (assuming both equal grades): {result['deans_list2']}")
